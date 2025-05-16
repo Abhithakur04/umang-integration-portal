@@ -73,9 +73,12 @@ exports.login = async (req, res) => {
   }
 };
 
-// Optional: Logout function to clear cookie
 exports.logout = (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+  });
   res.json({ message: 'Logged out successfully' });
 };
 
