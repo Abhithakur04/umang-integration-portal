@@ -52,8 +52,10 @@ app.use('/api', aadhaarRoutes);
         console.log("Successfully server start");
     });
   })
-  .catch((err)=>{
-    console.log("error!!! database cannot connect");
-  })
+ .catch((err) => {
+  console.error("❌ Failed to connect to database:", err.message);
+  process.exit(1); // optional: stop the server if DB fails
+});
+
 
 
