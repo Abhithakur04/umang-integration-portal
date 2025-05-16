@@ -1,19 +1,41 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios'; 
+import ".index.css";
+
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token') || '');
-  const [role, setRole] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // null = loading
+
+  useEffect(() => {
+    // On app load, check if user is authenticated via backend
+    axios.get(`${import.meta.env.VITE_API_URL}/auth/check`, { withCredentials: true })
+      .then(() => setIsAuthenticated(true))
+      .catch(() => setIsAuthenticated(false));
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>; // show loading indicator while checking auth
+  }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage setToken={setToken} setRole={setRole} />} />
-        <Route path="/register" element={<RegisterPage setToken={setToken} setRole={setRole} />} />
-        <Route path="/dashboard" element={<Dashboard token={token} />} />
+        {!isAuthenticated ? (
+          <>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </>
+        ) : (
+          <>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );
