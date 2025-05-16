@@ -25,7 +25,7 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application that allows use
 
 ---
 
-## Project Structure
+##  Backend  Project Structure
 
 ```
 Backend/
