@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { logoutUser } from '../utils/api';
 import AadhaarForm from '../components/AadhaarForm';
 
-const Dashboard = ({ token }) => {
+const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await logoutUser(); // clears cookie on backend
-      navigate('/'); // redirect to login page
+      await logoutUser(); // backend clears the cookie
+      navigate('/'); // redirect to login
     } catch (error) {
       alert('Logout failed');
     }
@@ -27,7 +27,7 @@ const Dashboard = ({ token }) => {
         </button>
       </header>
 
-      <AadhaarForm token={token} />
+      <AadhaarForm />
     </div>
   );
 };
