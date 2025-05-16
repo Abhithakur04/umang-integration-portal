@@ -82,7 +82,13 @@ exports.logout = (req, res) => {
   res.json({ message: 'Logged out successfully' });
 };
 
-
+exports.checkAuth = (req, res) => {
+  if (req.user) {
+    res.json({ role: req.user.role });
+  } else {
+    res.status(401).json({ error: 'Unauthorized' });
+  }
+};
 /*
 httpOnly: Protects your token from being stolen by malicious JavaScript (XSS attacks). This is essential for security.
 
