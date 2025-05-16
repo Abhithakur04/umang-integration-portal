@@ -1,11 +1,13 @@
 import LoginForm from '../components/LoginForm';
 
-const LoginPage = ({ setToken, setRole }) => {
+const LoginPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <LoginForm setToken={setToken} setRole={setRole} />
+      <LoginForm />
     </div>
   );
 };
 
 export default LoginPage;
+
+
